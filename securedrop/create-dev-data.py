@@ -15,6 +15,7 @@ import journalist_app
 from sdconfig import config
 from db import db
 from models import Journalist, Reply, Source, Submission
+from specialstrings import special_submissions
 
 submissions = cycle([
     'This is a test submission without markup!',
@@ -27,27 +28,6 @@ replies = cycle([
     'This is a test reply with markup and characters such as \, \\, \', \" and ". ' +  # noqa: W605, E501
     '<strong>This text should not be bold</strong>!'
 ])
-
-spcial_submissions = cycle([
-    """~!@#$%^&*()_+{}|:"<>?~!@#$%^&*()_+{}|:"<>?~!@#$%^&*()_+{}|:"<>?~!@#$%""",
-    """Ω≈ç√∫˜µ≤≥÷
-åß∂ƒ©˙∆˚¬…æ
-œ∑´®†¥¨ˆøπ“‘
-¡™£¢∞§¶•ªº–≠
-¸˛Ç◊ı˜Â¯˘¿
-ÅÍÎÏ˝ÓÔÒÚÆ☃
-Œ„´‰ˇÁ¨ˆØ∏”""",
-    """!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$"""  # noqa: W605, E501
-    """............................................................................................................................							.""",  # noqa: W605,    E501
-
-    """thisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwithoutspacesordashesthisisalongwordwit💩houtspacesordashes""",  # noqa: W605, E501
-
-    """😍😍😍😍🔥🔥🔥🔥🔥🖧Thelastwas3networkedcomuters📟📸longwordwit💩houtspacesordashes"""  # noqa: W605, E501
-
-
-
-            ]
-        )
 
 
 def main(staging=False):
@@ -136,7 +116,7 @@ def create_source_and_submissions(
     for _ in range(num_submissions):
         source.interaction_count += 1
         if client_test_data:
-            submission_text = next(spcial_submissions)
+            submission_text = next(special_submissions)
         else:
             submission_text = next(submissions)
         fpath = current_app.storage.save_message_submission(
